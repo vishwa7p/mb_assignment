@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+</head>
+<body>
+{% extends "base.html" %}
+
+{% block container %}
+    <form action="/mb_demoapp/home">
+        {% csrf_token %}
+    </form>
+<table class="table">
+    <tr>
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">MobileNumber</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+    <tbody>
+        {% for emp in users %}
+        <tr>
+            <td>{{emp.username}}</td>
+            <td>{{emp.mobile_number}}</td>
+            <td><a href="{% url 'emp_update' emp.id %}" class="btn-emp-info">Update</a></td>
+            <td><a href="{% url 'emp_delete' emp.id %}" class="btn-danger">Delete</a></td>
+            <td><a href="{% url 'add_emp' %}"><button class="btn">Add Employee</button></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+{% endblock %}
+
+</html>
