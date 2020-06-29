@@ -1,0 +1,24 @@
+.container {
+    margin-top: 30px !important;
+}
+ul {
+    margin-top: 30px !important;
+}
+.messages {
+    padding-left: 0px !important;
+    list-style-type: none;
+}
+
+.btn {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 18px;
+}
+
+.del-btn{
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 18px;
+}
