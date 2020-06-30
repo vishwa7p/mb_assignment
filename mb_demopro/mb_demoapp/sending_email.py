@@ -3,7 +3,7 @@ from sendgrid.helpers.mail import Mail
 from mb_demopro import settings
 
 from celery import Celery
-app = Celery('tasks', broker='pyamqp://guest@localhost//')
+app = Celery('sending_email', broker='pyamqp://guest@localhost//')
 
 
 @app.task
