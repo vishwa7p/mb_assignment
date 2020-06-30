@@ -10,6 +10,7 @@ from django.views.generic.base import View
 from datetime import datetime, timedelta
 import jwt
 from mb_demoapp.models import User
+from mb_demoapp.sending_email import send_otp
 from mb_demopro.settings import SECRET_KEY
 from django.core.cache import cache
 
@@ -34,6 +35,7 @@ class Registration(TemplateView):
         users.address = address
         users.dob = dob
         users.set_password(password)
+        send_otp.delay(email)
         users.save()
         return redirect('/mb_demoapp/home')
 

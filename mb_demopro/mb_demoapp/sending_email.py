@@ -2,14 +2,17 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from mb_demopro import settings
 
+from celery import Celery
+app = Celery('tasks', broker='pyamqp://guest@localhost//')
 
-def send_otp(email, otp):
-    mail_content = "Hello,<br><strong>" + otp + "</strong> is your otp for verification.<br>Please do not share with " \
-                                                "anyone. "
+
+@app.task
+def send_otp(email):
+    mail_content = "Hello,<br><strong>" "</strong> Thank you for registration.<br>We will reach you soon.."
     message = Mail(
         from_email='test@gmail.com',  # change the mail
         to_emails=email,
-        subject='OTP',
+        subject='Welcome',
         html_content=mail_content
     )
     try:
