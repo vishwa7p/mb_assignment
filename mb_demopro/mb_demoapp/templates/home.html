@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-
+<style>
+    .btn {
+  position: absolute;
+  top: 110px;
+  right: 16px;
+  font-size: 18px;
+}
+</style>
 </head>
 <body>
 {% extends "base.html" %}
@@ -19,7 +26,6 @@
                 <th scope="col">MobileNumber</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
-                <th scope="col"></th>
             </tr>
         </thead>
     <tbody>
@@ -27,13 +33,13 @@
         <tr>
             <td>{{emp.username}}</td>
             <td>{{emp.mobile_number}}</td>
-            <td><a href="{% url 'emp_update' emp.id %}" class="btn-emp-info">Update</a></td>
+            <td><a href="{% url 'emp_update' emp.id %}" class="btn-info">Update</a></td>
             <td><a href="{% url 'emp_delete' emp.id %}" class="btn-danger">Delete</a></td>
-            <td><a href="{% url 'add_emp' %}"><button class="btn">Add Employee</button></a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+        <a href="{% url 'add_emp' %}"><button class="btn btn-primary">Add Employee</button></a>
 
 </body>
 {% endblock %}

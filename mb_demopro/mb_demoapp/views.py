@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, DetailView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, UpdateView, DeleteView
 from django.views.generic.base import View
 from datetime import datetime, timedelta
 import jwt
@@ -90,7 +90,7 @@ class EmpUpdateView(UpdateView):
 
 
 class Login(TemplateView):
-    template_name = 'loginnew.html'
+    template_name = 'login.html'
 
     def post(self, request):
         username = request.POST.get('login_email')
