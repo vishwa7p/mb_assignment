@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 # Create your views here.
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse
@@ -13,6 +14,7 @@ from mb_demoapp.models import User
 from mb_demoapp.sending_email import send_otp
 from mb_demopro.settings import SECRET_KEY
 from django.core.cache import cache
+from django.contrib.auth.models import Group
 
 
 class Registration(TemplateView):
@@ -35,6 +37,8 @@ class Registration(TemplateView):
         users.address = address
         users.dob = dob
         users.set_password(password)
+        my_group = Group.objects.get(name="Manager")
+        my_group.user_set.add(users.id)
         send_otp.delay(email)
         users.save()
         return redirect('/mb_demoapp/home')
@@ -44,6 +48,7 @@ class AddEmployee(TemplateView):
     template_name = 'add-form.html'
 
     def post(self, request):
+
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
         email = request.POST.get("email")
@@ -105,25 +110,23 @@ class Login(TemplateView):
                        "message": "Invalid credentials",
                        "data": {}}
             return JsonResponse(context)
-        payload = {"username": self.users.username,
-                   "user_id": self.users.id,
-                   "iat": str(datetime.utcnow())}
-        self.encode_token = jwt.encode({"data": payload, "exp": datetime.utcnow() + timedelta(minutes=30)},
-                                       SECRET_KEY, ).decode()
-        cache.set("jwt_token", self.encode_token)
-        cache.get("jwt_token")
-        if self.users:
-            return redirect("/mb_demoapp/home")
+        user = authenticate(username=username, password=password)
+        if user:
+            payload = {"username": self.users.username,
+                       "user_id": self.users.id,
+                       "iat": str(datetime.utcnow())}
+            self.encode_token = jwt.encode({"data": payload, "exp": datetime.utcnow() + timedelta(minutes=30)},
+                                           SECRET_KEY, ).decode()
+            cache.set("jwt_token", self.encode_token)
+        return redirect("/mb_demoapp/home")
 
 
 class Logout(TemplateView):
 
     def post(self, request):
         cache.delete("jwt_token")
-        context = {"status": True,
-                   "message": "Logged out successfully",
-                   "data": {}}
-        return JsonResponse(context)
+
+        return redirect("/mb_demoapp/login ")
 
 
 
