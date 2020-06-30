@@ -112,8 +112,6 @@ CACHES = {
     }
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -126,8 +124,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
+SENDGRID_API_KEY = "api-key"
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
